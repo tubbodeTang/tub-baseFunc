@@ -1,37 +1,48 @@
 /* 
- * 将 Date 类型转换成 YYYY-MM-DD hh:mm:ss
-*/
-const formatTime = date => {
-    const year = date.getFullYear()
-    const month = date.getMonth() + 1
-    const day = date.getDate()
-    const hour = date.getHours()
-    const minute = date.getMinutes()
-    const second = date.getSeconds()
-
-    const formatNumber = n => {
-        n = n.toString()
-        return n[1] ? n : `0${n}`
-    }
-    return `${[year, month, day].map(formatNumber).join('-')} ${[hour, minute, second].map(formatNumber).join(':')}`
-}
-
-/* 
- * 将后台返回的各种样子的时间字符串转换成 YYYY-MM-DD hh:mm:ss
-*/
-const formatDateStr = function (str) {
-    let time = new Date(str).toLocaleString('zh', { hour12: false })
-    return time.replace(/\//g, '-')
-}
-
-/* 
  * 比较数组的某字段
-*/
+ */
 function compareArray(property) {
     return function (a, b) {
         var value1 = a[property];
         var value2 = b[property];
         return value1 - value2;
+    }
+}
+
+
+/* 
+ * 判断一个对象是不是语义非
+输入：任意对象
+输出：true / false
+原始值：
+Number：除 0 以外 true，0 - false
+String：除 ‘’ 以外 true，
+Boolean： true false 对应
+undefined：false
+null：false
+引用值：
+Array：Array 元素是空则为 false
+Object：任何时候都不是 false ？或者只有{}时是false
+*/
+
+function isNagative(target) {
+    // 类型判断
+    targetType = typeof target
+    console.log(targetType)
+    switch (targetType) {
+        case 'Number':
+            return target !== 0
+            break;
+        case 'String':
+            return target !== ''
+            break;
+        case 'Boolean':
+            return target
+            break;
+        case 'undefined':
+            return false
+            break;
+
     }
 }
 
@@ -44,7 +55,7 @@ function compareArray(property) {
 
 /* 
  * 是否定义
-*/
+ */
 export function isUndef(v: any): boolean % checks {
     return v === undefined || v === null
 }
@@ -55,7 +66,7 @@ export function isDef(v: any): boolean % checks {
 
 /* 
  * 是真或假
-*/
+ */
 export function isTrue(v: any): boolean % checks {
     return v === true
 }
@@ -79,11 +90,11 @@ export function isPrimitive(value: any): boolean % checks {
 }
 
 /**
-* Quick object check - this is primarily used to tell
-* Objects from primitive values when we know the value
-* is a JSON-compliant type.
-* 迅速简易鉴别是不是对象
-*/
+ * Quick object check - this is primarily used to tell
+ * Objects from primitive values when we know the value
+ * is a JSON-compliant type.
+ * 迅速简易鉴别是不是对象
+ */
 export function isObject(obj: mixed): boolean % checks {
     return obj !== null && typeof obj === 'object'
 }
